@@ -13,6 +13,16 @@ Metacello new
     load.
 ```
 
+## Purpose
+
+The potential usage of type information in Pharo code:
+
+- code documentation
+- shows possible type problems
+- help with code rewrite to statically typed languages
+- types may be used by code completion, JIT and other tools
+- runtime type checking
+
 ## How does it work?
 
 For methods in the given package, the type collector installs Metalinks on:
