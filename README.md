@@ -118,6 +118,5 @@ Collections and simple types can be combined.
 
 ```smalltalk
     <var: #tmp type: #(#(Dictionary of SmallInteger keys ByteSymbol) #UndefinedObject )>
-   <var: #tmp type: #(#(Dictionary of ByteString keys Object) #(Dictionary of SmallInteger keys ByteSymbol) )>
-
+    <var: #tmp type: #(#(Dictionary of ByteString keys Object) #(Dictionary of SmallInteger keys ByteSymbol) )>
 ```
