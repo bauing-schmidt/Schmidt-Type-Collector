@@ -54,14 +54,16 @@ Type pragmas are placed at the beginning of the method.
 	<var: #tmp type: #SmallInteger generated: false>
 ```
 
-The Type Collector generates the pragmas with the last keyword ```generated:``` expecting boolean value. If, for a given variable, it finds generated pragma, it rewrites it. If user changes this value to `false` or removes this keyword part because it manually sets the type or expects the generated type to be definitive, the generator ignores it. It writes pragmas only for methods that were executed during types collecting.
+The Type Collector generates the pragmas with the last keyword ```generated:``` expecting boolean value. If, for a given variable, it finds generated pragma, it rewrites it. If user changes this value to `false` or removes this keyword part because it manually sets the type or expects the generated type to be definitive, the generator ignores it. 
+
+The same for other kind of types described below.
+
+It writes pragmas only for methods that were executed during types collecting.
 
 ### Method arguments
 
 ```smalltalk
 	<arg: #argument type: #SmallInteger>
-	<arg: #argument type: #SmallInteger generated: true>
-	<arg: #argument type: #SmallInteger generated: false>
 ```
 
 ### Instance variables
@@ -70,8 +72,6 @@ The collected types for instance variables are stored in the method named `_slot
 
 ```smalltalk
 	<slot: #iVar type: #SmallInteger>
-	<slot: #iVar type: #SmallInteger generated: true>
-	<slot: #iVar type: #SmallInteger generated: false>
 ```
 
 ### Instance variables
@@ -80,16 +80,12 @@ Pragmas cannot be stored directly in the block code, so they are also placed at 
 
 ```smalltalk
 	<lockArg: #_1_each type: #SmallInteger>
-	<lockArg: #_1_each type: #SmallInteger generated: true>
-	<lockArg: #_1_each type: #SmallInteger generated: false>
 ```
 
 ## Return values
 
 ```smalltalk
 	<returns: #SmallInteger>
-	<returns: #SmallInteger generated: true>
-	<returns: #SmallInteger generated: false>
 ```
 
 ## Type descriptions
@@ -122,6 +118,6 @@ Collections and simple types can be combined.
 
 ```smalltalk
     <var: #tmp type: #(#(Dictionary of SmallInteger keys ByteSymbol) #UndefinedObject )>
-	<var: #tmp type: #(#(Dictionary of ByteString keys Object) #(Dictionary of SmallInteger keys ByteSymbol) )>
+   <var: #tmp type: #(#(Dictionary of ByteString keys Object) #(Dictionary of SmallInteger keys ByteSymbol) )>
 
 ```
