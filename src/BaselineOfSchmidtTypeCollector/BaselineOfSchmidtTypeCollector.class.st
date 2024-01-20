@@ -10,6 +10,7 @@ BaselineOfSchmidtTypeCollector >> baseline: spec [
 	<baseline>
 	spec for: #common
 		do: [			
-			spec package: 'Schmidt Type Collector'
+			spec package: 'Schmidt Type Collector'.
+			spec package: 'Schmidt Type Collector-Examples'
 	]
 ]

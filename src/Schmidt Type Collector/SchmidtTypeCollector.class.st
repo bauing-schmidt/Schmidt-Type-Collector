@@ -1,10 +1,3 @@
-"
-collector := PdmTypeCollector new.
-collector installOnPackageNamed: 'Text-Diff-Tests'.
-
-collector finish.
-collector generate.
-"
 Class {
 	#name : 'SchmidtTypeCollector',
 	#superclass : 'Object',

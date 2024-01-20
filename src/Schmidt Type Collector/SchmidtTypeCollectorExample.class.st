@@ -1,108 +1,70 @@
 Class {
 	#name : 'SchmidtTypeCollectorExample',
-	#superclass : 'Object',
-	#category : 'Schmidt Type Collector',
-	#package : 'Schmidt Type Collector'
+	#superclass : 'TestCase',
+	#instVars : [
+		'instVar'
+	],
+	#category : 'Schmidt Type Collector-Examples',
+	#package : 'Schmidt Type Collector-Examples'
 }
 
 { #category : 'examples' }
-SchmidtTypeCollectorExample class >> example [
+SchmidtTypeCollectorExample class >> exampe [ 
 
-	<script>
+	<example>
 	
-	| method collector1 |
-	method := (SchmidtTypeCollectorExample>>#methodWithTempsAndArg:arg2:).
+	| collector |
+	collector := SchmidtTypeCollector new.
+	collector installOnPackageNamed: 'Schmidt Type Collector-Examples' mode: #variables.
+	
+	SchmidtTypeCollectorExample suite run.
 
-	collector1 := (SchmidtTypeCollectorForMethod
-		forMethod: method)
-		install.
+	collector finish.
+	collector generate.
+	
+	"now collect return values"
+
+	collector := SchmidtTypeCollector new.
+	collector installOnPackageNamed: 'Schmidt Type Collector-Examples' mode: #returnValues.
+	
+	SchmidtTypeCollectorExample suite run.
+
+	collector finish.
+	collector generate.
+]
+
+{ #category : 'as yet unclassified' }
+SchmidtTypeCollectorExample >> _slotTypes [
+
 		
-	self new methodWithTempsAndArg: 42 arg2: #aSymbol.
-	self new methodWithTempsAndArg: 42 arg2: nil.
+]
 
-	collector1 remove.
+{ #category : 'accessing' }
+SchmidtTypeCollectorExample >> arg1: arg1 arg2: arg2 [
+
+	| tmp1 tmp2 |
+	#start traceCr.
+	tmp1 := arg1 + 1.
+	tmp2 := (tmp1 + 2) asString.
+	tmp2 yourself.
+	#( 1 2 nil #someting ) do: [ :arg3 | arg3 yourself ].
+	#beforeEnd traceCr.
+	^ tmp1 - 44
+]
+
+{ #category : 'accessing' }
+SchmidtTypeCollectorExample >> testSomething2 [
+
+	1 ifNotNil: [ :num |
+		num.	
+	 ].
+
+	instVar := #var.
+	self arg1: 42 arg2: #symbol.
 	
-"	result :=	 { collector1 } select: [: each | each collectedTempClasses notEmpty ] thenCollect: [ :each | 
-		{ each method. each targetVariableName. each collectedClasses  } ].
-"	
-	{ 
-		collector1 collectedTempClasses.
-		collector1 collectedArgClasses.
-		collector1 collectedReturnClasses
-	} inspect.
-]
-
-{ #category : 'examples' }
-SchmidtTypeCollectorExample class >> example2 [ 
-
-	| methods collectors |
-	methods := 'Documaps Items' asPackage methods select: [ :each | each methodClass isInstanceSide ].
-[ 
-	collectors := (methods flatCollect: [ :method |
-		| temps | 
-		temps := method temporaryVariables select: [ :temp | temp isTempVariable ].	
-		temps collect: [ :temp | (SchmidtTypeCollectorForMethod 
-			newForVariable: temp name
-			forMethod: method)
-				accessStrategy: #write;
-				install.		
-		]
-	]).
-
-	"-- open app here --"
-
-	collectors do: [ :each | each remove ].
-
-	collectors select: [: each | each collectedClasses notEmpty ] thenCollect: [ :each | 
-		{ each method. each targetVariableName. each collectedClasses  } ]
-]
-]
-
-{ #category : 'accessing' }
-SchmidtTypeCollectorExample >> arg1: arg arg2: arg2 [
-
-	<returns: #Object generated: true>
-	<arg: #arg type: #Object generated: true>
-	<var: #temp1 type: #Object generated: true>
-	<var: #temp2 type: #Number generated: true>
-
-	| temp1 temp2 |
-	#start traceCr.
-	temp1 := arg + 1.
-	temp2 := (temp1 + 2) asString.
-	temp2 yourself.
-	#(1 2 nil someting) do: [ :each | each yourself ].
-	#beforeEnd traceCr.
-	^ temp1 -44
-]
-
-{ #category : 'accessing' }
-SchmidtTypeCollectorExample >> arg: arg arg2: arg2 [
-
-	<returns: #Num>
-	<ivar: #arg1 type: #(Object) generated: true>
-
-	<var: #temp1 type: #Object generated: true>
-	<var: #temp2 type: #Number generated: false>
-
-	| temp1 temp2 |
-	#start traceCr.
-	temp1 := arg + 1.
-	temp2 := (temp1 + 2) asString.
-	temp2 yourself.
-	#(1 2 nil someting) do: [ :each | each yourself ].
-	#beforeEnd traceCr.
-	^ temp1 -44
-]
-
-{ #category : 'accessing' }
-SchmidtTypeCollectorExample >> methodWithTempsAndArg: arg arg2: arg2 [
-	| temp1 temp2 |
-	#start traceCr.
-	temp1 := arg + 1.
-	temp2 := (temp1 + 2) asString.
-	temp2 yourself.
-	#(1 2 nil someting) do: [ :each | each yourself ].
-	#beforeEnd traceCr.
-	^ temp1 -44
+	#(2) do: [ :x |
+		#(3 4) withIndexDo: [ :y :index |
+			x*y.
+			]
+	].
 ]

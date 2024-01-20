@@ -103,6 +103,7 @@ SchmidtTypeCollectorForMethod >> initialize [
 	tempLinks := OrderedCollection new.
 	instVarLinks := OrderedCollection new.
 	sequenceNodes := OrderedCollection new.
+	blockArgLinks := OrderedCollection new.
 	
 	mode := #variables.
 ]
