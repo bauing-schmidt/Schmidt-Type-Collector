@@ -1,3 +1,6 @@
+"
+Manages Type Collector Metalinks for a single class.
+"
 Class {
 	#name : 'SchmidtTypeCollectorForMethod',
 	#superclass : 'Object',
@@ -27,13 +30,13 @@ SchmidtTypeCollectorForMethod class >> forMethod: aCompiledMethod [
 		method: aCompiledMethod
 ]
 
-{ #category : 'accessing' }
+{ #category : 'utility' }
 SchmidtTypeCollectorForMethod >> availableArgNames [
 
 	^ targetMethod temporaryVariables select: [ :temp | temp isArgumentVariable ] thenCollect: [ :each | each name ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'utility' }
 SchmidtTypeCollectorForMethod >> availableTempNames [
 
 	^ targetMethod temporaryVariables select: [ :temp | temp isTempVariable ] thenCollect: [ :each | each name ]
@@ -55,25 +58,25 @@ SchmidtTypeCollectorForMethod >> blockArgInContext: aContext node: aNode [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'collected values' }
 SchmidtTypeCollectorForMethod >> collectedArgClasses [
 
 	^ collectedArgClasses
 ]
 
-{ #category : 'accessing' }
+{ #category : 'collected values' }
 SchmidtTypeCollectorForMethod >> collectedBlockArgClasses [
 
 	^ collectedBlockArgClasses
 ]
 
-{ #category : 'accessing' }
+{ #category : 'collected values' }
 SchmidtTypeCollectorForMethod >> collectedReturnClasses [ 
 
 	^ collectedReturnClasses
 ]
 
-{ #category : 'accessing' }
+{ #category : 'collected values' }
 SchmidtTypeCollectorForMethod >> collectedTempClasses [
 
 	^ collectedTempClasses
@@ -91,7 +94,7 @@ SchmidtTypeCollectorForMethod >> collector: anObject [
 	collector := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : 'initialization' }
 SchmidtTypeCollectorForMethod >> initialize [
 
 	super initialize.
@@ -123,7 +126,7 @@ SchmidtTypeCollectorForMethod >> instVarWriteInContext: aContext node: aNode [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'API' }
 SchmidtTypeCollectorForMethod >> install [
 
 	mode = #variables 
@@ -141,7 +144,7 @@ SchmidtTypeCollectorForMethod >> install [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'installing' }
 SchmidtTypeCollectorForMethod >> installArgLink [
 
 	argNames := self availableArgNames.
@@ -151,7 +154,7 @@ SchmidtTypeCollectorForMethod >> installArgLink [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'installing' }
 SchmidtTypeCollectorForMethod >> installBlockArgLinks [
 
 	targetMethod ast allSequenceNodes allButFirst do: [ :seqNode |
@@ -162,7 +165,7 @@ SchmidtTypeCollectorForMethod >> installBlockArgLinks [
 	].
 ]
 
-{ #category : 'accessing' }
+{ #category : 'installing' }
 SchmidtTypeCollectorForMethod >> installInstVarLinks [
 
 	targetMethod methodClass instanceVariables do: [ :var |
@@ -178,7 +181,7 @@ SchmidtTypeCollectorForMethod >> installInstVarLinks [
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : 'installing' }
 SchmidtTypeCollectorForMethod >> installLeaveLink [
 
 	returnLink := self newLeaveLink.
@@ -186,7 +189,7 @@ SchmidtTypeCollectorForMethod >> installLeaveLink [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'installing' }
 SchmidtTypeCollectorForMethod >> installReturnLink [
 
 	returnLink := self newLeaveLink.
@@ -194,7 +197,7 @@ SchmidtTypeCollectorForMethod >> installReturnLink [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'installing' }
 SchmidtTypeCollectorForMethod >> installTempLinks [
 
 	| link |
@@ -249,7 +252,7 @@ SchmidtTypeCollectorForMethod >> mode: anObject [
 	mode := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : 'links' }
 SchmidtTypeCollectorForMethod >> newArgLink [
 	"for now it should just halt in base level"
 
@@ -259,7 +262,7 @@ SchmidtTypeCollectorForMethod >> newArgLink [
 		  arguments: #(#context #node)
 ]
 
-{ #category : 'accessing' }
+{ #category : 'links' }
 SchmidtTypeCollectorForMethod >> newBlockArgLink [
 	"for now it should just halt in base level"
 
@@ -271,7 +274,7 @@ SchmidtTypeCollectorForMethod >> newBlockArgLink [
 		  control: #before
 ]
 
-{ #category : 'accessing' }
+{ #category : 'links' }
 SchmidtTypeCollectorForMethod >> newInstVarLink [
 
 	^ MetaLink new
@@ -281,7 +284,7 @@ SchmidtTypeCollectorForMethod >> newInstVarLink [
 		  control: #after
 ]
 
-{ #category : 'accessing' }
+{ #category : 'links' }
 SchmidtTypeCollectorForMethod >> newLeaveLink [
 	"for now it should just halt in base level"
 
@@ -292,7 +295,7 @@ SchmidtTypeCollectorForMethod >> newLeaveLink [
 		  control: #after		
 ]
 
-{ #category : 'accessing' }
+{ #category : 'links' }
 SchmidtTypeCollectorForMethod >> newLink [
 	"for now it should just halt in base level"
 
@@ -304,7 +307,7 @@ SchmidtTypeCollectorForMethod >> newLink [
 		  control: #after
 ]
 
-{ #category : 'accessing' }
+{ #category : 'links' }
 SchmidtTypeCollectorForMethod >> newTempVarLink [
 
 	^ MetaLink new
@@ -315,7 +318,7 @@ SchmidtTypeCollectorForMethod >> newTempVarLink [
 		  control: #after
 ]
 
-{ #category : 'accessing' }
+{ #category : 'API' }
 SchmidtTypeCollectorForMethod >> remove [
 
 
@@ -337,12 +340,6 @@ SchmidtTypeCollectorForMethod >> remove [
 
 	targetMethod recompile.
 	
-]
-
-{ #category : 'accessing' }
-SchmidtTypeCollectorForMethod >> tagExec: anObject [ 
-
-	self halt.
 ]
 
 { #category : 'metalink methods' }

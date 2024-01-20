@@ -1,3 +1,6 @@
+"
+Describes a keyed collection type.
+"
 Class {
 	#name : 'SchmidtTypeCollectorDictionaryType',
 	#superclass : 'SchmidtTypeCollectorType',
@@ -32,7 +35,7 @@ SchmidtTypeCollectorDictionaryType class >> fromDictionary: anObject [
 	^ self fromClass: anObject class itemClasses: itemClasses keyClasses: keyClasses
 ]
 
-{ #category : 'accessing' }
+{ #category : 'comparing' }
 SchmidtTypeCollectorDictionaryType >> = anObject [
 
 	^ super = anObject
@@ -40,7 +43,7 @@ SchmidtTypeCollectorDictionaryType >> = anObject [
 			and: keyClasses = anObject keyClasses ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'comparing' }
 SchmidtTypeCollectorDictionaryType >> hash [
 
 	^ (super hash bitXor: itemClasses hash) bitXor: keyClasses hash

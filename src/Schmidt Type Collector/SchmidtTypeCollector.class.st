@@ -1,3 +1,6 @@
+"
+Runtime Type Collector.
+"
 Class {
 	#name : 'SchmidtTypeCollector',
 	#superclass : 'Object',
@@ -9,14 +12,14 @@ Class {
 	#package : 'Schmidt Type Collector'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'API' }
 SchmidtTypeCollector >> finish [ 
 
 	methodCollectors do: [ :each | each remove ].
 	MetaLink uninstallAll.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'API' }
 SchmidtTypeCollector >> generate [ 
 
 	methodCollectors do: [ :collector |
@@ -32,7 +35,7 @@ SchmidtTypeCollector >> generate [
 	self generateSlotTypes.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'generation' }
 SchmidtTypeCollector >> generateArgTypesIn: collector manager: pragmaManager [
 
 	"keep the order"
@@ -43,7 +46,7 @@ SchmidtTypeCollector >> generateArgTypesIn: collector manager: pragmaManager [
 	].
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'generation' }
 SchmidtTypeCollector >> generateBlockArgTypesIn: collector manager: pragmaManager [
 
 	collector collectedBlockArgClasses keys sorted do: [ :argName |
@@ -54,7 +57,7 @@ SchmidtTypeCollector >> generateBlockArgTypesIn: collector manager: pragmaManage
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'generation' }
 SchmidtTypeCollector >> generateReturnTypesIn: collector manager: pragmaManager [
 
 	collector collectedReturnClasses ifNotEmpty: [ 		
@@ -62,7 +65,7 @@ SchmidtTypeCollector >> generateReturnTypesIn: collector manager: pragmaManager 
 	]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'generation' }
 SchmidtTypeCollector >> generateSlotTypes [
 
 	slotTypes keysAndValuesDo: [ :class :slotDict |
@@ -76,7 +79,7 @@ SchmidtTypeCollector >> generateSlotTypes [
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'generation' }
 SchmidtTypeCollector >> generateTempTypesIn: collector manager: pragmaManager [
 
 	collector method tempNames do: [ :tempName |
@@ -87,7 +90,7 @@ SchmidtTypeCollector >> generateTempTypesIn: collector manager: pragmaManager [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 SchmidtTypeCollector >> initialize [ 
 
 	super initialize.
@@ -95,7 +98,7 @@ SchmidtTypeCollector >> initialize [
 	slotTypes := Dictionary new.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'API' }
 SchmidtTypeCollector >> installOnPackageNamed: packageName mode: mode [
 
 	"mode: #variables, #returnValues"
@@ -114,7 +117,7 @@ SchmidtTypeCollector >> installOnPackageNamed: packageName mode: mode [
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'method collector cooperation' }
 SchmidtTypeCollector >> recordSlotWrite: slotName inClass: aClass type: aType [ 
 
 	((slotTypes at: aClass ifAbsentPut: [ Dictionary new ])
@@ -122,7 +125,7 @@ SchmidtTypeCollector >> recordSlotWrite: slotName inClass: aClass type: aType [
 			add: aType
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'type description methods' }
 SchmidtTypeCollector >> typeDescriptionMethodIn: aClass [
 
 	| methodName |
@@ -137,13 +140,13 @@ SchmidtTypeCollector >> typeDescriptionMethodIn: aClass [
 	 ^ aClass >> methodName  
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'type description methods' }
 SchmidtTypeCollector >> typeDescriptionMethodName [
 
 	^ '_slotTypes' asSymbol
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'utility' }
 SchmidtTypeCollector >> typeStringFor: aTypeOrTypes [ 
 
 	aTypeOrTypes isCollection ifFalse: [ 

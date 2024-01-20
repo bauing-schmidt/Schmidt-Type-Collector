@@ -1,3 +1,6 @@
+"
+Describes a simple type
+"
 Class {
 	#name : 'SchmidtTypeCollectorSimpleType',
 	#superclass : 'SchmidtTypeCollectorType',

@@ -1,3 +1,6 @@
+"
+Collected type description.
+"
 Class {
 	#name : 'SchmidtTypeCollectorType',
 	#superclass : 'Object',
@@ -8,20 +11,20 @@ Class {
 	#package : 'Schmidt Type Collector'
 }
 
-{ #category : 'accessing' }
+{ #category : 'comparing' }
 SchmidtTypeCollectorType >> <= b [ 
 
 	^ typeClass name <= b typeClass name
 ]
 
-{ #category : 'accessing' }
+{ #category : 'comparing' }
 SchmidtTypeCollectorType >> = anObject [
 
 	^ self class = anObject class
 		and: [ typeClass = anObject typeClass ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'serialization' }
 SchmidtTypeCollectorType >> arrayStringFrom: classes [
 
 	| sorted | 
@@ -35,7 +38,7 @@ SchmidtTypeCollectorType >> arrayStringFrom: classes [
 		 ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'comparing' }
 SchmidtTypeCollectorType >> hash [
 
 	^ typeClass identityHash

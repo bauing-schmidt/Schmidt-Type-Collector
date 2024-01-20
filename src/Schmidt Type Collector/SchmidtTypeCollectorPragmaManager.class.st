@@ -1,3 +1,6 @@
+"
+Manages pragmas in a method. Determines if a pragma can be rewritten and performs it.
+"
 Class {
 	#name : 'SchmidtTypeCollectorPragmaManager',
 	#superclass : 'Object',
@@ -16,7 +19,7 @@ SchmidtTypeCollectorPragmaManager class >> for: aCompiledMethod [
 		yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : 'private' }
 SchmidtTypeCollectorPragmaManager >> canRegenerate: aName [ 
 
 	| pragmaName name argsCount |
@@ -36,7 +39,7 @@ SchmidtTypeCollectorPragmaManager >> canRegenerate: aName [
 	^ ((method pragmaAt: name) arguments at: argsCount + 1) == true
 ]
 
-{ #category : 'accessing' }
+{ #category : 'private' }
 SchmidtTypeCollectorPragmaManager >> canRegenerate: aName argument: firstArgName [ 
 
 	| pragmaName name argsCount matchingPragmaOrNil |
@@ -70,7 +73,7 @@ SchmidtTypeCollectorPragmaManager >> canRegenerate: aName argument: firstArgName
 	^ (matchingPragmaOrNil arguments at: argsCount + 1) == true
 ]
 
-{ #category : 'accessing' }
+{ #category : 'private' }
 SchmidtTypeCollectorPragmaManager >> hasPragmaNamed: pragmaName argument: firstArgName [
 
 	^ (method ast pragmas 
@@ -94,7 +97,7 @@ SchmidtTypeCollectorPragmaManager >> method: anObject [
 	self refresh.
 ]
 
-{ #category : 'accessing' }
+{ #category : 'private' }
 SchmidtTypeCollectorPragmaManager >> privAddPragmaString: aString [ 
 
 	| source start newSource |
@@ -109,7 +112,7 @@ SchmidtTypeCollectorPragmaManager >> privAddPragmaString: aString [
 	self refresh.
 ]
 
-{ #category : 'accessing' }
+{ #category : 'private' }
 SchmidtTypeCollectorPragmaManager >> privPragmaReplace: pragmaName argument: firstArgName with: aString [
 
 	| name argsCount matchingPragmaOrNil |
@@ -140,7 +143,7 @@ SchmidtTypeCollectorPragmaManager >> privPragmaReplace: pragmaName argument: fir
 	^ (matchingPragmaOrNil arguments at: argsCount + 1) == true
 ]
 
-{ #category : 'accessing' }
+{ #category : 'private' }
 SchmidtTypeCollectorPragmaManager >> privReplacePragma: pragmaName argument: firstArgName with: aString [
 
 	| matchingPragmaNodeOrNil source newSource start end |
@@ -165,7 +168,7 @@ SchmidtTypeCollectorPragmaManager >> privReplacePragma: pragmaName argument: fir
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : 'private' }
 SchmidtTypeCollectorPragmaManager >> privReplacePragma: pragmaName with: aString [
 
 	| matchingPragmaNodeOrNil source newSource start end |
@@ -188,13 +191,13 @@ SchmidtTypeCollectorPragmaManager >> privReplacePragma: pragmaName with: aString
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : 'private' }
 SchmidtTypeCollectorPragmaManager >> refresh [ 
 
 	method := method methodClass >> method selector.
 ]
 
-{ #category : 'accessing' }
+{ #category : 'API - pragmas' }
 SchmidtTypeCollectorPragmaManager >> replacePragma: pragmaName argument: arg with: aString [ 
 
 	(self canRegenerate: pragmaName argument: arg) 
@@ -205,7 +208,7 @@ SchmidtTypeCollectorPragmaManager >> replacePragma: pragmaName argument: arg wit
 		]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'API - pragmas' }
 SchmidtTypeCollectorPragmaManager >> replacePragma: pragmaName with: aString [ 
 
 	(self canRegenerate: pragmaName) 

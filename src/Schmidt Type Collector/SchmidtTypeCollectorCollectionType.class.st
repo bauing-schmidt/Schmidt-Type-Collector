@@ -1,3 +1,6 @@
+"
+Describes a non-keyed collection type.
+"
 Class {
 	#name : 'SchmidtTypeCollectorCollectionType',
 	#superclass : 'SchmidtTypeCollectorType',
@@ -17,14 +20,14 @@ SchmidtTypeCollectorCollectionType class >> fromClass: aClass itemClasses: itemC
 		yourself.
 ]
 
-{ #category : 'accessing' }
+{ #category : 'comparing' }
 SchmidtTypeCollectorCollectionType >> = anObject [
 
 	^ super = anObject
 		and: [ itemClasses = anObject itemClasses ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'comparing' }
 SchmidtTypeCollectorCollectionType >> hash [
 
 	^ super hash bitXor: itemClasses hash
