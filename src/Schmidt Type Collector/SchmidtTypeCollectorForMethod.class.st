@@ -163,7 +163,8 @@ SchmidtTypeCollectorForMethod >> instVarWriteInContext: aContext node: aNode [
 { #category : 'API' }
 SchmidtTypeCollectorForMethod >> install [
 
-	self readCurrentTypesFromPragmas.
+	collector merging ifTrue: [ 
+		self readCurrentTypesFromPragmas ].
 	
 	mode = #variables 
 		ifTrue: [ 
@@ -366,7 +367,7 @@ SchmidtTypeCollectorForMethod >> readCurrentTypesFromPragmas [
 			ifTrue: [ 
 				collectedTempClasses at: pragma arguments first asSymbol put: (self collectorTypesFrom: pragma arguments second)  ].
 			
-		(#(blockArg:type: var:type:generated:) includes: pragma selector) 
+		(#(blockArg:type: blockArg:type:generated:) includes: pragma selector) 
 			ifTrue: [ 
 				collectedBlockArgClasses at: pragma arguments first asSymbol put: (self collectorTypesFrom: pragma arguments second)  ].
 

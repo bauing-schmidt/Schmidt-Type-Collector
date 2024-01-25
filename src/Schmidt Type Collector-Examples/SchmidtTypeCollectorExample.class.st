@@ -73,7 +73,7 @@ SchmidtTypeCollectorExample >> testSomething2 [
 	 ].
 
 	instVar := #var.
-	self arg1: #symbol arg2: #symbol.
+	self arg1: 42 arg2: #symbol.
 	
 	#(2) do: [ :x |
 		#(3 4) withIndexDo: [ :y :index |
