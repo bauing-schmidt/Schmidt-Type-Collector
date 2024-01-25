@@ -113,37 +113,6 @@ SchmidtTypeCollectorPragmaManager >> privAddPragmaString: aString [
 ]
 
 { #category : 'private' }
-SchmidtTypeCollectorPragmaManager >> privPragmaReplace: pragmaName argument: firstArgName with: aString [
-
-	| name argsCount matchingPragmaOrNil |
-
-	(method hasPragmaNamed: pragmaName) 
-		ifTrue: [
-			(method pragmas anySatisfy: [ :pragma | 
-				(pragma selector = pragmaName 
-				and: [ pragma arguments notEmpty ])
-				and: [ pragma arguments first = firstArgName ]])
-					ifTrue: [ ^ false ].
-	].
-	
-	argsCount := pragmaName  count: [:e | e = $:].
-	
-	name := (pragmaName, #generated:) asSymbol.
-
-	matchingPragmaOrNil := method pragmas 
-		detect: [ :pragma | 
-			(pragma selector = name 
-			and: [ pragma arguments notEmpty ])
-			and: [ pragma arguments first = firstArgName ] ] 
-		ifNone: [ nil ].
-		
-	matchingPragmaOrNil ifNil: [ ^ true ].
-
-
-	^ (matchingPragmaOrNil arguments at: argsCount + 1) == true
-]
-
-{ #category : 'private' }
 SchmidtTypeCollectorPragmaManager >> privReplacePragma: pragmaName argument: firstArgName with: aString [
 
 	| matchingPragmaNodeOrNil source newSource start end |
