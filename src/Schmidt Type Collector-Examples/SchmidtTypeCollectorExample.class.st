@@ -36,12 +36,20 @@ SchmidtTypeCollectorExample class >> exampe [
 { #category : 'as yet unclassified' }
 SchmidtTypeCollectorExample >> _slotTypes [
 
-		
+		<slot: #instVar type: #ByteSymbol generated: true>
+	
 ]
 
 { #category : 'accessing' }
 SchmidtTypeCollectorExample >> arg1: arg1 arg2: arg2 [
 
+	<arg: #arg1 type: #SmallInteger generated: true>
+	<arg: #arg2 type: #ByteSymbol generated: true>
+	<var: #tmp1 type: #SmallInteger generated: true>
+	<var: #tmp2 type: #ByteString generated: true>
+	<returns: #SmallInteger generated: true>
+	<blockArg: #arg3 type: #(#ByteSymbol #SmallInteger #UndefinedObject ) generated: true>
+	<arg: #arg1 type: #ByteSymbol generated: true>
 	| tmp1 tmp2 |
 	#start traceCr.
 	tmp1 := arg1 + 1.
@@ -55,12 +63,17 @@ SchmidtTypeCollectorExample >> arg1: arg1 arg2: arg2 [
 { #category : 'accessing' }
 SchmidtTypeCollectorExample >> testSomething2 [
 
+	<returns: #SchmidtTypeCollectorExample generated: true>
+	<blockArg: #index type: #SmallInteger generated: true>
+	<blockArg: #num type: #SmallInteger generated: true>
+	<blockArg: #x type: #SmallInteger generated: true>
+	<blockArg: #y type: #SmallInteger generated: true>
 	1 ifNotNil: [ :num |
 		num.	
 	 ].
 
 	instVar := #var.
-	self arg1: 42 arg2: #symbol.
+	self arg1: #symbol arg2: #symbol.
 	
 	#(2) do: [ :x |
 		#(3 4) withIndexDo: [ :y :index |

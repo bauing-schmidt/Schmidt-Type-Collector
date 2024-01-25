@@ -50,7 +50,9 @@ SchmidtTypeCollectorForMethod >> blockArgInContext: aContext node: aNode [
 
 	aNode parent argumentNames do: [ :argName | 
 		| key | 
-		key := ('_', index asString, '_', argName) asSymbol.
+			key := collector useBlockArgPrefix 
+			ifTrue: [  ('_', index asString, '_', argName) asSymbol ]
+			ifFalse: [ argName asSymbol ].
 		(collectedBlockArgClasses at: key ifAbsentPut: [ Set new ])
 				add: (aContext tempNamed: argName) asPdmTypeCollectorType.
 	]
@@ -94,6 +96,38 @@ SchmidtTypeCollectorForMethod >> collector: anObject [
 	collector := anObject
 ]
 
+{ #category : 'API' }
+SchmidtTypeCollectorForMethod >> collectorTypesFrom: aLiteral [
+
+	aLiteral isArray ifFalse: [ 
+		^ { SchmidtTypeCollectorSimpleType fromClass: (Smalltalk at: aLiteral) } asSet 
+	].
+
+	(aLiteral size = 3 and: [ (aLiteral second = #of) ])
+		ifTrue: [  ^ { SchmidtTypeCollectorCollectionType fromClass: (Smalltalk at: aLiteral first) itemClasses:  (self collectorTypesSimpleFrom: aLiteral third) }  asSet ].
+		
+	(aLiteral size = 5 and: [ (aLiteral second = #of) and: [aLiteral fourth = #keys] ])
+		ifTrue: [ ^ { SchmidtTypeCollectorDictionaryType fromClass: (Smalltalk at: aLiteral first) itemClasses:  (self collectorTypesSimpleFrom: aLiteral third) keyClasses: (self collectorTypesSimpleFrom: aLiteral fifth) }  asSet ].
+
+	^ aLiteral flatCollect: [ :each |
+		self collectorTypesFrom: each.
+	] as: Set
+
+]
+
+{ #category : 'API' }
+SchmidtTypeCollectorForMethod >> collectorTypesSimpleFrom: aLiteral [
+
+	aLiteral isArray ifFalse: [ 
+		^ { Smalltalk at: aLiteral } asSet
+	].
+
+	^ aLiteral flatCollect: [ :each |
+		self collectorTypesSimpleFrom: each.
+	] as: Set.
+
+]
+
 { #category : 'initialization' }
 SchmidtTypeCollectorForMethod >> initialize [
 
@@ -129,6 +163,8 @@ SchmidtTypeCollectorForMethod >> instVarWriteInContext: aContext node: aNode [
 { #category : 'API' }
 SchmidtTypeCollectorForMethod >> install [
 
+	self readCurrentTypesFromPragmas.
+	
 	mode = #variables 
 		ifTrue: [ 
 			self installTempLinks.
@@ -319,6 +355,16 @@ SchmidtTypeCollectorForMethod >> newTempVarLink [
 ]
 
 { #category : 'API' }
+SchmidtTypeCollectorForMethod >> readCurrentTypesFromPragmas [
+
+	targetMethod pragmas do: [ :pragma | 
+		(#(arg:type: arg:type:generated:) includes: pragma selector) 
+			ifTrue: [ 
+				collectedArgClasses at: pragma arguments first asSymbol put: (self collectorTypesFrom: pragma arguments second)  ]
+			]
+]
+
+{ #category : 'API' }
 SchmidtTypeCollectorForMethod >> remove [
 
 
@@ -326,7 +372,7 @@ SchmidtTypeCollectorForMethod >> remove [
 		ifTrue: [ 
 			tempLinks, {argLink}, {returnLink}, blockArgLinks, instVarLinks do: [ :metalink | 
 			metalink ifNotNil: [ 
-				metalink uninstall ]
+				[ metalink uninstall ] on: Error do: [  ] ]
 			].
 		].
 	

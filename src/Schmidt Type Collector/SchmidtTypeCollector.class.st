@@ -6,7 +6,9 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'methodCollectors',
-		'slotTypes'
+		'slotTypes',
+		'useBlockArgPrefix',
+		'merging'
 	],
 	#category : 'Schmidt Type Collector',
 	#package : 'Schmidt Type Collector'
@@ -96,6 +98,8 @@ SchmidtTypeCollector >> initialize [
 	super initialize.
 	
 	slotTypes := Dictionary new.
+	useBlockArgPrefix := false.
+	merging := true.
 ]
 
 { #category : 'API' }
@@ -115,6 +119,18 @@ SchmidtTypeCollector >> installOnPackageNamed: packageName mode: mode [
 	
 
 	
+]
+
+{ #category : 'accessing' }
+SchmidtTypeCollector >> merging [
+
+	^ merging
+]
+
+{ #category : 'accessing' }
+SchmidtTypeCollector >> merging: anObject [
+
+	merging := anObject
 ]
 
 { #category : 'method collector cooperation' }
@@ -160,4 +176,16 @@ SchmidtTypeCollector >> typeStringFor: aTypeOrTypes [
 		(aTypeOrTypes asArray sorted do: [ :cls | str << cls typeString << ' ' ]).
 		str << ')']
 	
+]
+
+{ #category : 'accessing' }
+SchmidtTypeCollector >> useBlockArgPrefix [
+
+	^ useBlockArgPrefix
+]
+
+{ #category : 'accessing' }
+SchmidtTypeCollector >> useBlockArgPrefix: anObject [
+
+	useBlockArgPrefix := anObject
 ]
