@@ -106,8 +106,13 @@ SchmidtTypeCollector >> initialize [
 SchmidtTypeCollector >> installOnPackageNamed: packageName mode: mode [
 
 	"mode: #variables, #returnValues"
+	
+	| methods |
+	
+	methods := packageName asPackage methods.
+	methods := methods reject: [ :each | each methodClass = Context ].
 
-	methodCollectors := packageName asPackage methods collect: [ :method |
+	methodCollectors := methods collect: [ :method |
 		(SchmidtTypeCollectorForMethod forMethod: method)
 			collector: self;
 			mode: mode;

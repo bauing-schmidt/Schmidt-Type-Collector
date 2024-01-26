@@ -163,6 +163,9 @@ SchmidtTypeCollectorForMethod >> instVarWriteInContext: aContext node: aNode [
 
 { #category : 'API' }
 SchmidtTypeCollectorForMethod >> install [
+
+	Transcript show: 'Installing collector to '; show: targetMethod name; cr.
+	World doOneCycle.
 	
 	originalSource := targetMethod sourceCode.
 
@@ -384,6 +387,7 @@ SchmidtTypeCollectorForMethod >> readCurrentTypesFromPragmas [
 { #category : 'API' }
 SchmidtTypeCollectorForMethod >> remove [
 
+	Transcript show: 'Removing collector from '; show: targetMethod name; cr.
 
 	mode = #variables 
 		ifTrue: [ 
