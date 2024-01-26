@@ -363,8 +363,21 @@ SchmidtTypeCollectorForMethod >> readCurrentTypesFromPragmas [
 	targetMethod pragmas do: [ :pragma | 
 		(#(arg:type: arg:type:generated:) includes: pragma selector) 
 			ifTrue: [ 
-				collectedArgClasses at: pragma arguments first asSymbol put: (self collectorTypesFrom: pragma arguments second)  ]
-			]
+				collectedArgClasses at: pragma arguments first asSymbol put: (self collectorTypesFrom: pragma arguments second)  ].
+			
+		(#(var:type: var:type:generated:) includes: pragma selector) 
+			ifTrue: [ 
+				collectedTempClasses at: pragma arguments first asSymbol put: (self collectorTypesFrom: pragma arguments second)  ].
+			
+		(#(blockArg:type: blockArg:type:generated:) includes: pragma selector) 
+			ifTrue: [ 
+				collectedBlockArgClasses at: pragma arguments first asSymbol put: (self collectorTypesFrom: pragma arguments second)  ].
+
+		(#(returns: returns:generated:) includes: pragma selector) 
+			ifTrue: [ 
+				collectedReturnClasses addAll: (self collectorTypesFrom: pragma arguments first)  ].
+			
+	]
 ]
 
 { #category : 'API' }
