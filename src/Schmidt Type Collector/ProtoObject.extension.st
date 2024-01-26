@@ -1,7 +1,7 @@
-Extension { #name : 'Object' }
+Extension { #name : 'ProtoObject' }
 
 { #category : '*Schmidt Type Collector' }
-Object >> asPdmTypeCollectorType [ 
+ProtoObject >> asPdmTypeCollectorType [ 
 
 	^ SchmidtTypeCollectorSimpleType fromClass: self class
 ]
