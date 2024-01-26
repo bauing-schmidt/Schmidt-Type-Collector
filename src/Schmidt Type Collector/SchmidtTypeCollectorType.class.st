@@ -59,5 +59,5 @@ SchmidtTypeCollectorType >> typeClass: anObject [
 { #category : 'accessing' }
 SchmidtTypeCollectorType >> typeString [ 
 
-	^ typeClass name storeString
+	^ typeClass name asSymbol storeString
 ]

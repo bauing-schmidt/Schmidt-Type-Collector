@@ -43,9 +43,8 @@ SchmidtTypeCollectorExample >> _slotTypes [
 { #category : 'accessing' }
 SchmidtTypeCollectorExample >> arg1: argument1 arg2: argument2 [
 
-	
 	<arg: #argument1 type: #(#SmallFloat64 #SmallInteger ) generated: true>
-	<arg: #argument2 type: #ByteSymbol generated: true>
+	<arg: #argument2 type: #'Symbol class' generated: true>
 	<var: #temporary1 type: #SmallFloat64 generated: true>
 	<var: #temporary2 type: #ByteString generated: true>
 	<blockArg: #each type: #(#ByteSymbol #SmallInteger #UndefinedObject ) generated: true>
@@ -73,7 +72,7 @@ SchmidtTypeCollectorExample >> testSomething2 [
 	 ].
 
 	instVar := #var.
-	self arg1: 42.2 arg2: #symbol.
+	self arg1: 42.2 arg2: Symbol.
 	
 	#(2) do: [ :x |
 		#(3 4) withIndexDo: [ :y :index |
