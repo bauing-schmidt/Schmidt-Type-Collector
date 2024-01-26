@@ -166,7 +166,8 @@ SchmidtTypeCollectorForMethod >> install [
 	
 	originalSource := targetMethod sourceCode.
 
-	self readCurrentTypesFromPragmas.
+	collector merging ifTrue: [ 
+		self readCurrentTypesFromPragmas ].
 	
 	mode = #variables 
 		ifTrue: [ 
@@ -388,7 +389,7 @@ SchmidtTypeCollectorForMethod >> remove [
 		ifTrue: [ 
 			tempLinks, {argLink}, {returnLink}, blockArgLinks, instVarLinks do: [ :metalink | 
 			metalink ifNotNil: [ 
-				[ metalink uninstall ] on: Error do: [  ] ]
+				metalink uninstall ]
 			].
 		].
 	
