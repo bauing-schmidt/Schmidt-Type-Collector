@@ -18,7 +18,8 @@ Class {
 		'collectedArgClasses',
 		'collectedReturnClasses',
 		'collectedBlockArgClasses',
-		'sequenceNodes'
+		'sequenceNodes',
+		'originalSource'
 	],
 	#category : 'Schmidt Type Collector',
 	#package : 'Schmidt Type Collector'
@@ -162,6 +163,8 @@ SchmidtTypeCollectorForMethod >> instVarWriteInContext: aContext node: aNode [
 
 { #category : 'API' }
 SchmidtTypeCollectorForMethod >> install [
+	
+	originalSource := targetMethod sourceCode.
 
 	self readCurrentTypesFromPragmas.
 	
@@ -384,7 +387,7 @@ SchmidtTypeCollectorForMethod >> remove [
 				].
 		].
 
-	targetMethod recompile.
+	targetMethod methodClass compile: originalSource.
 	
 ]
 

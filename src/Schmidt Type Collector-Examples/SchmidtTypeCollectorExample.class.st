@@ -41,23 +41,23 @@ SchmidtTypeCollectorExample >> _slotTypes [
 ]
 
 { #category : 'accessing' }
-SchmidtTypeCollectorExample >> arg1: arg1 arg2: arg2 [
+SchmidtTypeCollectorExample >> arg1: argument1 arg2: argument2 [
 
-	<arg: #arg1 type: #SmallInteger generated: true>
-	<arg: #arg2 type: #ByteSymbol generated: true>
-	<var: #tmp1 type: #SmallInteger generated: true>
-	<var: #tmp2 type: #ByteString generated: true>
-	<returns: #SmallInteger generated: true>
-	<blockArg: #arg3 type: #(#ByteSymbol #SmallInteger #UndefinedObject ) generated: true>
-	<arg: #arg1 type: #ByteSymbol generated: true>
-	| tmp1 tmp2 |
+	
+	<arg: #argument1 type: #(#SmallFloat64 #SmallInteger ) generated: true>
+	<arg: #argument2 type: #ByteSymbol generated: true>
+	<var: #temporary1 type: #SmallFloat64 generated: true>
+	<var: #temporary2 type: #ByteString generated: true>
+	<blockArg: #each type: #(#ByteSymbol #SmallInteger #UndefinedObject ) generated: true>
+	<returns: #SmallFloat64 generated: true>
+	| temporary1 temporary2 |
 	#start traceCr.
-	tmp1 := arg1 + 1.
-	tmp2 := (tmp1 + 2) asString.
-	tmp2 yourself.
-	#( 1 2 nil #someting ) do: [ :arg3 | arg3 yourself ].
+	temporary1 := argument1 + 1.
+	temporary2 := (temporary1 + 2) asString.
+	temporary2 yourself.
+	#( 1 2 nil #someting ) do: [ :each | each yourself ].
 	#beforeEnd traceCr.
-	^ tmp1 - 44
+	^ temporary1 - 44
 ]
 
 { #category : 'accessing' }
@@ -73,7 +73,7 @@ SchmidtTypeCollectorExample >> testSomething2 [
 	 ].
 
 	instVar := #var.
-	self arg1: #symbol arg2: #symbol.
+	self arg1: 42.2 arg2: #symbol.
 	
 	#(2) do: [ :x |
 		#(3 4) withIndexDo: [ :y :index |
