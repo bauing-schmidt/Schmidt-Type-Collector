@@ -114,6 +114,12 @@ SchmidtTypeCollector >> installOnPackageNamed: packageName mode: mode [
 			yourself
 	].
 
+	merging ifTrue: [ 
+		"not only defined classes but all classes"
+		packageName asPackage classes do: [ :aClass |
+		self readCurrentSlotTypesFromPragmasFor: aClass ]
+	].
+
 	methodCollectors do: [ :each | each install ].
 	
 	
@@ -134,6 +140,26 @@ SchmidtTypeCollector >> merging: anObject [
 ]
 
 { #category : 'method collector cooperation' }
+SchmidtTypeCollector >> readCurrentSlotTypesFromPragmasFor: aClass [
+
+	| methodName |
+	
+	methodName := self typeDescriptionMethodName.
+		
+	(aClass includesSelector: methodName)
+		ifFalse: [ ^ self ].
+	
+	(aClass >> methodName) pragmas do: [ :pragma | 
+		(#(slot:type: slot:type:generated:) includes: pragma selector) 
+			ifTrue: [ 
+				((slotTypes at: aClass ifAbsentPut: [ Dictionary new ])
+					at: pragma arguments first asSymbol ifAbsentPut: [ Set new ])
+					addAll: (SchmidtTypeCollectorForMethod basicNew collectorTypesFrom: pragma arguments second).
+		].
+	]
+]
+
+{ #category : 'method collector cooperation' }
 SchmidtTypeCollector >> recordSlotWrite: slotName inClass: aClass type: aType [ 
 
 	((slotTypes at: aClass ifAbsentPut: [ Dictionary new ])
@@ -151,7 +177,7 @@ SchmidtTypeCollector >> typeDescriptionMethodIn: aClass [
 	(aClass includesSelector: methodName)
 		ifFalse: [
 			aClass compile: methodName, '
-	' ].
+	' classified: '_TYPES'].
 
 	 ^ aClass >> methodName  
 ]
