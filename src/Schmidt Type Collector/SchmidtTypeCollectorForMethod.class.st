@@ -101,7 +101,7 @@ SchmidtTypeCollectorForMethod >> collector: anObject [
 SchmidtTypeCollectorForMethod >> collectorTypesFrom: aLiteral [
 
 	aLiteral isArray ifFalse: [ 
-		^ { SchmidtTypeCollectorSimpleType fromClass: (Smalltalk at: aLiteral) } asSet 
+		^ { SchmidtTypeCollectorSimpleType fromClass: (Smalltalk classNamed: aLiteral) } asSet 
 	].
 
 	(aLiteral size = 3 and: [ (aLiteral second = #of) ])
