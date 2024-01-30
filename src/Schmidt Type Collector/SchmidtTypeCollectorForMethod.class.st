@@ -50,12 +50,14 @@ SchmidtTypeCollectorForMethod >> blockArgInContext: aContext node: aNode [
 	index := (sequenceNodes indexOf: aNode).
 
 	aNode parent argumentNames do: [ :argName | 
-		| key | 
-			key := collector useBlockArgPrefix 
+		| key value | 
+		value := aContext tempNamed: argName.
+		value _assigned.
+		key := collector useBlockArgPrefix 
 			ifTrue: [  ('_', index asString, '_', argName) asSymbol ]
 			ifFalse: [ argName asSymbol ].
 		(collectedBlockArgClasses at: key ifAbsentPut: [ Set new ])
-				add: (aContext tempNamed: argName) asPdmTypeCollectorType.
+				add: value asPdmTypeCollectorType.
 	]
 
 
@@ -153,6 +155,7 @@ SchmidtTypeCollectorForMethod >> instVarWriteInContext: aContext node: aNode [
 
 	varName := aNode variable name asSymbol.
 	value := aContext receiver instVarNamed: varName.
+	value _assigned.
 
 	collector 
 		recordSlotWrite: varName 
@@ -261,7 +264,11 @@ SchmidtTypeCollectorForMethod >> installTempLinks [
 { #category : 'metalink methods' }
 SchmidtTypeCollectorForMethod >> leaveInContext: aContext node: aNode [ 
 
-	collectedReturnClasses add: aContext top asPdmTypeCollectorType.
+	| value |
+	value := aContext top.
+	value _assigned.
+
+	collectedReturnClasses add: value asPdmTypeCollectorType.
 	
 	"store types of all temporaries because collections may be changed in lifetime of the method"	
 
@@ -413,18 +420,23 @@ SchmidtTypeCollectorForMethod >> remove [
 SchmidtTypeCollectorForMethod >> valueInContext: aContext node: aNode [ 
 
 	argNames do: [ :argName |
+		| value |
+		value := aContext tempNamed: argName.
+		argName _assigned.
 		(collectedArgClasses at: argName ifAbsentPut: [ Set new ])
-			add: (aContext tempNamed: argName) asPdmTypeCollectorType ] 
+			add: value asPdmTypeCollectorType ] 
 ]
 
 { #category : 'metalink methods' }
 SchmidtTypeCollectorForMethod >> writeInContext: aContext node: aNode [
 	
-	| varName |
+	| varName value |
 	
 	varName := aNode variable name asSymbol.
-
+	value := aContext tempNamed: varName.
+	value _assigned.
+	
 	(collectedTempClasses at: varName ifAbsentPut: [ Set new ])
-		add: (aContext tempNamed: varName) asPdmTypeCollectorType.
+		add: value asPdmTypeCollectorType.
 	
 ]

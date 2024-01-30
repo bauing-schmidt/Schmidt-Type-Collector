@@ -24,13 +24,13 @@ SchmidtTypeCollectorExample class >> exampe [
 	
 	"now collect return values"
 
-	collector := SchmidtTypeCollector new.
+	"collector := SchmidtTypeCollector new.
 	collector installOnPackageNamed: 'Schmidt Type Collector-Examples' mode: #returnValues.
 	
 	SchmidtTypeCollectorExample suite run.
 
 	collector finish.
-	collector generate.
+	collector generate."
 ]
 
 { #category : 'as yet unclassified' }
@@ -79,4 +79,28 @@ SchmidtTypeCollectorExample >> testSomething2 [
 			x*y.
 			]
 	].
+]
+
+{ #category : 'accessing' }
+SchmidtTypeCollectorExample >> testSomethingBlock [
+
+	<var: #b1 type: #(FullBlockClosure returning SmallInteger) generated: true>
+	<var: #b2 type: #(FullBlockClosure) generated: true>
+	<var: #b3 type: #(FullBlockClosure arguments #(#(Object )) returning Object) generated: true>
+	<var: #b4 type: #(FullBlockClosure arguments #(#(Object ))) generated: true>
+	<var: #val type: #(#Object #SmallInteger ) generated: true>
+	<blockArg: #arg type: #Object generated: true>
+	| b1 b2 b3 b4 val |
+	
+	b1 := [ 42 ].
+	val := b1 value.
+	
+	b2 := [ 42 ].
+	b2 value.
+
+	b3 := [ :arg | arg ].
+	val := b3 value: Object new.
+
+	b4 := [ :arg | arg ].
+	b4 value: Object new.
 ]
