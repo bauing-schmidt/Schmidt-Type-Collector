@@ -11,7 +11,7 @@ FullBlockClosure >> asPdmTypeCollectorType [
 		oldClass: FullBlockClosure;
 		copyObject: self to: CollectingFullBlockClosure.
 		
-	newClosure collectorType: collectorType.
+	newClosure addCollectorType: collectorType.
 		
 	newClosure become: self.
 	

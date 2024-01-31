@@ -2,7 +2,7 @@ Class {
 	#name : 'CollectingFullBlockClosureResult',
 	#superclass : 'ProtoObject',
 	#instVars : [
-		'collectorType',
+		'collectorTypes',
 		'realValue'
 	],
 	#category : 'Schmidt Type Collector',
@@ -10,9 +10,15 @@ Class {
 }
 
 { #category : 'accessing' }
+CollectingFullBlockClosureResult >> _addCcollectorType: anObject [
+
+	collectorTypes add: anObject
+]
+
+{ #category : 'accessing' }
 CollectingFullBlockClosureResult >> _assigned [
 
-	collectorType markAsUsed.
+	collectorTypes do: [ :each | each markAsUsed ].
 	^ realValue isReadOnlyObject  
 		ifFalse: [ self becomeForward: realValue. ]
 		ifTrue: [ self becomeForward: realValue copyHash: false ]
@@ -21,15 +27,22 @@ CollectingFullBlockClosureResult >> _assigned [
 ]
 
 { #category : 'accessing' }
-CollectingFullBlockClosureResult >> _collectorType [
+CollectingFullBlockClosureResult >> _collectorTypes [
 
-	^ collectorType
+	^ collectorTypes
 ]
 
 { #category : 'accessing' }
-CollectingFullBlockClosureResult >> _collectorType: anObject [
+CollectingFullBlockClosureResult >> _collectorTypes: anObject [
 
-	collectorType := anObject
+	collectorTypes := anObject
+]
+
+{ #category : 'accessing' }
+CollectingFullBlockClosureResult >> _initialize [ 
+
+	super initialize.
+	collectorTypes := OrderedCollection new.
 ]
 
 { #category : 'accessing' }
