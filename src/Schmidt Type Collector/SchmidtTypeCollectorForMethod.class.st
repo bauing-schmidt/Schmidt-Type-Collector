@@ -33,6 +33,22 @@ SchmidtTypeCollectorForMethod class >> forMethod: aCompiledMethod [
 ]
 
 { #category : 'utility' }
+SchmidtTypeCollectorForMethod >> addBlockInformation: blockNumber returnsValue: aBoolean [ 
+
+	| blockNode info |
+	blockNode := (self detectBlockWithNumber: blockNumber).
+	info := SchmidtTypeCollectorBlockType new wasUsed: aBoolean.
+	
+	
+]
+
+{ #category : 'utility' }
+SchmidtTypeCollectorForMethod >> allBlocks [ 
+
+	^ (targetMethod ast allChildren select: [ :each | each isBlock ]) sorted: [ :a :b | a left <= b left ].
+]
+
+{ #category : 'utility' }
 SchmidtTypeCollectorForMethod >> availableArgNames [
 
 	^ targetMethod temporaryVariables select: [ :temp | temp isArgumentVariable ] thenCollect: [ :each | each name ]
@@ -104,6 +120,12 @@ SchmidtTypeCollectorForMethod >> collector: anObject [
 SchmidtTypeCollectorForMethod >> compiledBlock: aCompiledBlock type: type [
 
 	blockInformation at: aCompiledBlock put: type
+]
+
+{ #category : 'utility' }
+SchmidtTypeCollectorForMethod >> detectBlockWithNumber: blockNumber [
+
+	self allBlocks at: blockNumber
 ]
 
 { #category : 'initialization' }
@@ -355,7 +377,7 @@ SchmidtTypeCollectorForMethod >> orderedBlocks [
 
 	| allBlocks |
 	
-	allBlocks := (targetMethod ast allChildren select: [ :each | each isBlock ]) sorted: [ :a :b | a left <= b left ].
+	allBlocks := self allBlocks.
 	
 	^ (blockInformation associations collect: [ :assoc |
 		(self isWellKnownBlock: assoc key) ifFalse: [ 

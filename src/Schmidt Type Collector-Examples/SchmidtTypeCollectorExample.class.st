@@ -93,7 +93,7 @@ SchmidtTypeCollectorExample >> testSomething2 [
 { #category : 'accessing' }
 SchmidtTypeCollectorExample >> testSomethingBlock [
 
-	<var: #b1 type: #(FullBlockClosure returning SmallInteger) generated: true>
+	<var: #b1 type: #(#(FullBlockClosure returning SmallInteger) #(FullBlockClosure returning SmallInteger) ) generated: true>
 	<var: #b2 type: #(FullBlockClosure) generated: true>
 	<var: #b3 type: #(FullBlockClosure arguments #(Object) returning Object) generated: true>
 	<var: #b4 type: #(FullBlockClosure arguments #(Object)) generated: true>
@@ -106,6 +106,7 @@ SchmidtTypeCollectorExample >> testSomethingBlock [
 	<block: 1 returnsValue: true generated: true>
 	<block: 5 returnsValue: true generated: true>
 	<block: 7 returnsValue: true generated: true>
+	<block: 1 returnsValue: true generated: true>
 	| b1 b2 b3 b4 b5 val |
 	
 	b1 := [ 41 ].
