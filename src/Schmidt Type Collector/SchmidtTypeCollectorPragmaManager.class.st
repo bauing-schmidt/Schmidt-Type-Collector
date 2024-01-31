@@ -73,6 +73,16 @@ SchmidtTypeCollectorPragmaManager >> canRegenerate: aName argument: firstArgName
 	^ (matchingPragmaOrNil arguments at: argsCount + 1) == true
 ]
 
+{ #category : 'API - pragmas' }
+SchmidtTypeCollectorPragmaManager >> ensureDeletePragma: pragmaName argument: arg [
+
+	(self canRegenerate: pragmaName argument: arg) 
+		ifTrue: [ 
+			(self hasPragmaNamed: pragmaName argument: arg)
+				ifTrue: [ self privDeletePragma: pragmaName argument: arg ].
+		]
+]
+
 { #category : 'private' }
 SchmidtTypeCollectorPragmaManager >> hasPragmaNamed: pragmaName argument: firstArgName [
 
@@ -110,6 +120,31 @@ SchmidtTypeCollectorPragmaManager >> privAddPragmaString: aString [
 	newSource.
 	method methodClass compile: newSource.
 	self refresh.
+]
+
+{ #category : 'private' }
+SchmidtTypeCollectorPragmaManager >> privDeletePragma: pragmaName argument: firstArgName [
+
+	| matchingPragmaNodeOrNil source newSource start end |
+
+	matchingPragmaNodeOrNil := method ast pragmas 
+		detect: [ :pragma | 
+			(pragma selector = pragmaName 
+			and: [ pragma arguments notEmpty ])
+			and: [ pragma arguments first value = firstArgName ] ] 
+		ifNone: [ nil ].
+
+	matchingPragmaNodeOrNil ifNil: [ ^ self ].
+	
+	source := method sourceCode.
+	start := matchingPragmaNodeOrNil start.
+	end := matchingPragmaNodeOrNil stop.
+	
+	newSource := source copyReplaceFrom: start to: end  with: ''.
+	method methodClass compile: newSource.
+	self refresh.	
+	
+	
 ]
 
 { #category : 'private' }

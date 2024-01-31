@@ -66,10 +66,15 @@ SchmidtTypeCollector >> generateBlockInformationIn: collector manager: pragmaMan
 
 	orderedBlocks do: [ :assoc |
 		| num type |
-		num := assoc key. 
+		num := assoc key.
 		type := assoc value.
-		pragmaManager replacePragma: #block: argument: num with: ('<block: {1} returnsValue: {2} generated: true>' format: { num storeString. type wasUsed storeString})
-	 ]
+		type wasUsed 
+			ifTrue: [ 
+				pragmaManager replacePragma: #block: argument: num with: ('<block: {1} returnsValue: {2} generated: true>' format: { num storeString. type wasUsed storeString}) ]
+			ifFalse: [ 
+				pragmaManager ensureDeletePragma: #block: argument: num.
+			]
+		]
 ]
 
 { #category : 'generation' }

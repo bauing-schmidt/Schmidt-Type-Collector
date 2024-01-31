@@ -96,6 +96,9 @@ SchmidtTypeCollectorExample >> testSomethingBlock [
 	b1 := [ 41 ].
 	val := b1 value.
 	
+	#(1 2 3) select: [ :each | each > 1 ].
+	#(1 2 3) do: [ :each | each ].
+	
 	b2 := [ 42 ].
 	b2 value.
 

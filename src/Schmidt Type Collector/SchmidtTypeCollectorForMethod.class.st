@@ -269,6 +269,12 @@ SchmidtTypeCollectorForMethod >> installTempLinks [
 
 ]
 
+{ #category : 'blocks' }
+SchmidtTypeCollectorForMethod >> isWellKnownBlock: aBlockNode [
+
+	^ aBlockNode parent isMessage and: [ self wellKnownBlockMessages includes: aBlockNode parent selector ]
+]
+
 { #category : 'metalink methods' }
 SchmidtTypeCollectorForMethod >> leaveInContext: aContext node: aNode [ 
 
@@ -384,7 +390,8 @@ SchmidtTypeCollectorForMethod >> orderedBlocks [
 	allBlocks := (targetMethod ast allChildren select: [ :each | each isBlock ]) sorted: [ :a :b | a left <= b left ].
 	
 	^ (blockInformation associations collect: [ :assoc |
-		(allBlocks indexOf: assoc key) -> assoc value
+		(self isWellKnownBlock: assoc key) ifFalse: [ 
+			(allBlocks indexOf: assoc key) -> assoc value ].
 	]) sorted: [ :a :b | a key <= b key ]
 ]
 
@@ -445,6 +452,12 @@ SchmidtTypeCollectorForMethod >> valueInContext: aContext node: aNode [
 		argName _assigned.
 		(collectedArgClasses at: argName ifAbsentPut: [ Set new ])
 			add: (value asSchmidtTypeCollectorTypeIn: self) ] 
+]
+
+{ #category : 'blocks' }
+SchmidtTypeCollectorForMethod >> wellKnownBlockMessages [
+
+	^ #(select: collect: do: reject:)
 ]
 
 { #category : 'metalink methods' }
