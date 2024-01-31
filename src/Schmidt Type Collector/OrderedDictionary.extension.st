@@ -1,7 +1,7 @@
 Extension { #name : 'OrderedDictionary' }
 
 { #category : '*Schmidt Type Collector' }
-OrderedDictionary >> asPdmTypeCollectorType [ 
+OrderedDictionary >> asSchmidtTypeCollectorTypeIn: aCollectorForMethod [ 
 
 	^ SchmidtTypeCollectorDictionaryType fromDictionary: self
 ]

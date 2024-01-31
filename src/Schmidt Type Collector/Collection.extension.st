@@ -1,7 +1,7 @@
 Extension { #name : 'Collection' }
 
 { #category : '*Schmidt Type Collector' }
-Collection >> asPdmTypeCollectorType [ 
+Collection >> asSchmidtTypeCollectorTypeIn: aCollectorForMethod [ 
 
 	| itemClasses |
 	

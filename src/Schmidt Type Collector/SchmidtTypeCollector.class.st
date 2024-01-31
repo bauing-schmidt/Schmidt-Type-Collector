@@ -25,13 +25,15 @@ SchmidtTypeCollector >> finish [
 SchmidtTypeCollector >> generate [ 
 
 	methodCollectors do: [ :collector |
-		| pragmaManager |
+		| pragmaManager orderedBlocks |
 		pragmaManager := (SchmidtTypeCollectorPragmaManager for: collector method).
+		orderedBlocks := collector orderedBlocks.
 
 		self generateReturnTypesIn: collector manager: pragmaManager.
 		self generateArgTypesIn: collector manager: pragmaManager.
 		self generateTempTypesIn: collector manager: pragmaManager.
 		self generateBlockArgTypesIn: collector manager: pragmaManager.
+		self generateBlockInformationIn: collector manager: pragmaManager blocks: orderedBlocks.
 	].
 
 	self generateSlotTypes.
@@ -57,6 +59,17 @@ SchmidtTypeCollector >> generateBlockArgTypesIn: collector manager: pragmaManage
 		pragmaManager replacePragma: #blockArg:type:generated: argument: argName with: ('<blockArg: {1} type: {2} generated: true>' format: { argName storeString. self typeStringFor: types  }).
 	] 
 
+]
+
+{ #category : 'generation' }
+SchmidtTypeCollector >> generateBlockInformationIn: collector manager: pragmaManager blocks: orderedBlocks [.
+
+	orderedBlocks do: [ :assoc |
+		| num type |
+		num := assoc key. 
+		type := assoc value.
+		pragmaManager replacePragma: #block: argument: num with: ('<block: {1} returnsValue: {2} generated: true>' format: { num storeString. type wasUsed storeString})
+	 ]
 ]
 
 { #category : 'generation' }

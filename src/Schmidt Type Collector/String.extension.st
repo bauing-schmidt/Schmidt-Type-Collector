@@ -1,7 +1,7 @@
 Extension { #name : 'String' }
 
 { #category : '*Schmidt Type Collector' }
-String >> asPdmTypeCollectorType [ 
+String >> asSchmidtTypeCollectorTypeIn: aCollectorForMethod [ 
 
 	^ SchmidtTypeCollectorSimpleType fromClass: self class
 ]

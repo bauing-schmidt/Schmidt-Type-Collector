@@ -20,7 +20,7 @@ CollectingFullBlockClosure >> addCollectorType: aCollectorType [
 ]
 
 { #category : 'evaluating' }
-CollectingFullBlockClosure >> asPdmTypeCollectorType [
+CollectingFullBlockClosure >> asSchmidtTypeCollectorTypeIn: aCollectorForMethod [ 
 
 	"only register a new collector type"
 	

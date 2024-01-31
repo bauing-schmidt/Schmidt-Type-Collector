@@ -1,7 +1,7 @@
 Extension { #name : 'SmallDictionary' }
 
 { #category : '*Schmidt Type Collector' }
-SmallDictionary >> asPdmTypeCollectorType [ 
+SmallDictionary >> asSchmidtTypeCollectorTypeIn: aCollectorForMethod [ 
 
 	^ SchmidtTypeCollectorDictionaryType fromDictionary: self
 ]

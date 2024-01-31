@@ -5,7 +5,7 @@ ProtoObject >> _assigned [
 ]
 
 { #category : '*Schmidt Type Collector' }
-ProtoObject >> asPdmTypeCollectorType [ 
+ProtoObject >> asSchmidtTypeCollectorTypeIn: aCollectorForMethod [ 
 
 	^ SchmidtTypeCollectorSimpleType fromClass: self class
 ]

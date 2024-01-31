@@ -19,7 +19,8 @@ Class {
 		'collectedReturnClasses',
 		'collectedBlockArgClasses',
 		'sequenceNodes',
-		'originalSource'
+		'originalSource',
+		'blockInformation'
 	],
 	#category : 'Schmidt Type Collector',
 	#package : 'Schmidt Type Collector'
@@ -57,7 +58,7 @@ SchmidtTypeCollectorForMethod >> blockArgInContext: aContext node: aNode [
 			ifTrue: [  ('_', index asString, '_', argName) asSymbol ]
 			ifFalse: [ argName asSymbol ].
 		(collectedBlockArgClasses at: key ifAbsentPut: [ Set new ])
-				add: value asPdmTypeCollectorType.
+				add: (value asSchmidtTypeCollectorTypeIn: self).
 	]
 
 
@@ -131,6 +132,12 @@ SchmidtTypeCollectorForMethod >> collectorTypesSimpleFrom: aLiteral [
 
 ]
 
+{ #category : 'blocks' }
+SchmidtTypeCollectorForMethod >> compiledBlock: aCompiledBlock type: type [
+
+	blockInformation at: aCompiledBlock put: type
+]
+
 { #category : 'initialization' }
 SchmidtTypeCollectorForMethod >> initialize [
 
@@ -144,6 +151,7 @@ SchmidtTypeCollectorForMethod >> initialize [
 	instVarLinks := OrderedCollection new.
 	sequenceNodes := OrderedCollection new.
 	blockArgLinks := OrderedCollection new.
+	blockInformation := Dictionary new.
 	
 	mode := #variables.
 ]
@@ -160,7 +168,7 @@ SchmidtTypeCollectorForMethod >> instVarWriteInContext: aContext node: aNode [
 	collector 
 		recordSlotWrite: varName 
 		inClass: targetMethod methodClass 
-		type: value asPdmTypeCollectorType.
+		type: (value asSchmidtTypeCollectorTypeIn: self).
 
 ]
 
@@ -268,7 +276,7 @@ SchmidtTypeCollectorForMethod >> leaveInContext: aContext node: aNode [
 	value := aContext top.
 	value _assigned.
 
-	collectedReturnClasses add: value asPdmTypeCollectorType.
+	collectedReturnClasses add: (value asSchmidtTypeCollectorTypeIn: self).
 	
 	"store types of all temporaries because collections may be changed in lifetime of the method"	
 
@@ -368,6 +376,18 @@ SchmidtTypeCollectorForMethod >> newTempVarLink [
 		  control: #after
 ]
 
+{ #category : 'utility' }
+SchmidtTypeCollectorForMethod >> orderedBlocks [
+
+	| allBlocks |
+	
+	allBlocks := (targetMethod ast allChildren select: [ :each | each isBlock ]) sorted: [ :a :b | a left <= b left ].
+	
+	^ (blockInformation associations collect: [ :assoc |
+		(allBlocks indexOf: assoc key) -> assoc value
+	]) sorted: [ :a :b | a key <= b key ]
+]
+
 { #category : 'API' }
 SchmidtTypeCollectorForMethod >> readCurrentTypesFromPragmas [
 
@@ -424,7 +444,7 @@ SchmidtTypeCollectorForMethod >> valueInContext: aContext node: aNode [
 		value := aContext tempNamed: argName.
 		argName _assigned.
 		(collectedArgClasses at: argName ifAbsentPut: [ Set new ])
-			add: value asPdmTypeCollectorType ] 
+			add: (value asSchmidtTypeCollectorTypeIn: self) ] 
 ]
 
 { #category : 'metalink methods' }
@@ -437,6 +457,6 @@ SchmidtTypeCollectorForMethod >> writeInContext: aContext node: aNode [
 	value _assigned.
 	
 	(collectedTempClasses at: varName ifAbsentPut: [ Set new ])
-		add: value asPdmTypeCollectorType.
+		add: (value asSchmidtTypeCollectorTypeIn: self).
 	
 ]
