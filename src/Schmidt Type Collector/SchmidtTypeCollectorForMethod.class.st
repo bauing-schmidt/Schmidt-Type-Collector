@@ -100,38 +100,6 @@ SchmidtTypeCollectorForMethod >> collector: anObject [
 	collector := anObject
 ]
 
-{ #category : 'API' }
-SchmidtTypeCollectorForMethod >> collectorTypesFrom: aLiteral [
-
-	aLiteral isArray ifFalse: [ 
-		^ { SchmidtTypeCollectorSimpleType fromClass: (Smalltalk classNamed: aLiteral) } asSet 
-	].
-
-	(aLiteral size = 3 and: [ (aLiteral second = #of) ])
-		ifTrue: [  ^ { SchmidtTypeCollectorCollectionType fromClass: (Smalltalk at: aLiteral first) itemClasses:  (self collectorTypesSimpleFrom: aLiteral third) }  asSet ].
-		
-	(aLiteral size = 5 and: [ (aLiteral second = #of) and: [aLiteral fourth = #keys] ])
-		ifTrue: [ ^ { SchmidtTypeCollectorDictionaryType fromClass: (Smalltalk at: aLiteral first) itemClasses:  (self collectorTypesSimpleFrom: aLiteral third) keyClasses: (self collectorTypesSimpleFrom: aLiteral fifth) }  asSet ].
-
-	^ aLiteral flatCollect: [ :each |
-		self collectorTypesFrom: each.
-	] as: Set
-
-]
-
-{ #category : 'API' }
-SchmidtTypeCollectorForMethod >> collectorTypesSimpleFrom: aLiteral [
-
-	aLiteral isArray ifFalse: [ 
-		^ { Smalltalk at: aLiteral } asSet
-	].
-
-	^ aLiteral flatCollect: [ :each |
-		self collectorTypesSimpleFrom: each.
-	] as: Set.
-
-]
-
 { #category : 'blocks' }
 SchmidtTypeCollectorForMethod >> compiledBlock: aCompiledBlock type: type [
 
@@ -401,19 +369,19 @@ SchmidtTypeCollectorForMethod >> readCurrentTypesFromPragmas [
 	targetMethod pragmas do: [ :pragma | 
 		(#(arg:type: arg:type:generated:) includes: pragma selector) 
 			ifTrue: [ 
-				collectedArgClasses at: pragma arguments first asSymbol put: (self collectorTypesFrom: pragma arguments second)  ].
+				collectedArgClasses at: pragma arguments first asSymbol put: (SchmidtTypeCollectorType fromLiteral: pragma arguments second)  ].
 			
 		(#(var:type: var:type:generated:) includes: pragma selector) 
 			ifTrue: [ 
-				collectedTempClasses at: pragma arguments first asSymbol put: (self collectorTypesFrom: pragma arguments second)  ].
+				collectedTempClasses at: pragma arguments first asSymbol put: (SchmidtTypeCollectorType fromLiteral: pragma arguments second)  ].
 			
 		(#(blockArg:type: blockArg:type:generated:) includes: pragma selector) 
 			ifTrue: [ 
-				collectedBlockArgClasses at: pragma arguments first asSymbol put: (self collectorTypesFrom: pragma arguments second)  ].
+				collectedBlockArgClasses at: pragma arguments first asSymbol put: (SchmidtTypeCollectorType fromLiteral: pragma arguments second)  ].
 
 		(#(returns: returns:generated:) includes: pragma selector) 
 			ifTrue: [ 
-				collectedReturnClasses addAll: (self collectorTypesFrom: pragma arguments first)  ].
+				collectedReturnClasses addAll: (SchmidtTypeCollectorType fromLiteral: pragma arguments first)  ].
 			
 	]
 ]

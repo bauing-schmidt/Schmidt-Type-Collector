@@ -177,7 +177,7 @@ SchmidtTypeCollector >> readCurrentSlotTypesFromPragmasFor: aClass [
 			ifTrue: [ 
 				((slotTypes at: aClass ifAbsentPut: [ Dictionary new ])
 					at: pragma arguments first asSymbol ifAbsentPut: [ Set new ])
-					addAll: (SchmidtTypeCollectorForMethod basicNew collectorTypesFrom: pragma arguments second).
+					addAll: (SchmidtTypeCollectorType fromLiteral: pragma arguments second).
 		].
 	]
 ]

@@ -62,6 +62,8 @@ SchmidtTypeCollectorExample >> arg1: argument1 arg2: argument2 [
 { #category : 'accessing' }
 SchmidtTypeCollectorExample >> blockMessage: aBlock [ 
 
+	<arg: #aBlock type: #(FullBlockClosure arguments #(SmallInteger) returning SmallInteger) generated: true>
+	<var: #tmp type: #SmallInteger generated: true>
 	| tmp |
 	tmp := aBlock value: 32.	
 ]
@@ -91,6 +93,19 @@ SchmidtTypeCollectorExample >> testSomething2 [
 { #category : 'accessing' }
 SchmidtTypeCollectorExample >> testSomethingBlock [
 
+	<var: #b1 type: #(FullBlockClosure returning SmallInteger) generated: true>
+	<var: #b2 type: #(FullBlockClosure) generated: true>
+	<var: #b3 type: #(FullBlockClosure arguments #(Object) returning Object) generated: true>
+	<var: #b4 type: #(FullBlockClosure arguments #(Object)) generated: true>
+	<var: #b5 type: #(FullBlockClosure arguments #(SmallInteger) returning SmallInteger) generated: true>
+	<var: #val type: #(#Object #SmallInteger ) generated: true>
+	<blockArg: #arg type: #Object generated: true>
+	<blockArg: #arg2 type: #Object generated: true>
+	<blockArg: #arg3 type: #SmallInteger generated: true>
+	<blockArg: #each type: #SmallInteger generated: true>
+	<block: 1 returnsValue: true generated: true>
+	<block: 5 returnsValue: true generated: true>
+	<block: 7 returnsValue: true generated: true>
 	| b1 b2 b3 b4 b5 val |
 	
 	b1 := [ 41 ].

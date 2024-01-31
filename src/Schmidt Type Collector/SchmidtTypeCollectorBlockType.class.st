@@ -11,12 +11,33 @@ Class {
 }
 
 { #category : 'instance creation' }
+SchmidtTypeCollectorBlockType class >> fromClass: aClass argumentClasses: argumentClasses [
+
+	^ self new 
+		typeClass: aClass;
+		argumentClasses: argumentClasses;
+		wasUsed: false;
+		yourself.
+]
+
+{ #category : 'instance creation' }
 SchmidtTypeCollectorBlockType class >> fromClass: aClass argumentClasses: argumentClasses returnClasses: returnClasses [
 
 	^ self new 
 		typeClass: aClass;
 		argumentClasses: argumentClasses;
 		returnClasses: returnClasses;
+		wasUsed: true;
+		yourself.
+]
+
+{ #category : 'instance creation' }
+SchmidtTypeCollectorBlockType class >> fromClass: aClass returnClasses: returnClasses [
+
+	^ self new 
+		typeClass: aClass;
+		returnClasses: returnClasses;
+		wasUsed: true;
 		yourself.
 ]
 
