@@ -93,7 +93,7 @@ SchmidtTypeCollectorExample >> testSomethingBlock [
 
 	| b1 b2 b3 b4 b5 val |
 	
-	b1 := [ 42 ].
+	b1 := [ 41 ].
 	val := b1 value.
 	
 	b2 := [ 42 ].
@@ -105,6 +105,6 @@ SchmidtTypeCollectorExample >> testSomethingBlock [
 	b4 := [ :arg2 | arg2 ].
 	b4 value: Object new.
 
-	b5 := [ :arg2 | arg2 ].
+	b5 := [ :arg3 | arg3 ].
 	self blockMessage: b5.
 ]

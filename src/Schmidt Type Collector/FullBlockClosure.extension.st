@@ -7,7 +7,7 @@ FullBlockClosure >> asSchmidtTypeCollectorTypeIn: aCollectorForMethod [
 	
 	collectorType := SchmidtTypeCollectorBlockType new.
 	
-	aCollectorForMethod compiledBlock: self compiledBlock type: collectorType.
+	aCollectorForMethod compiledBlock: self compiledBlock ast type: collectorType.
 	
 	newClosure := ShiftClassInstaller basicNew
 		oldClass: FullBlockClosure;
