@@ -114,7 +114,7 @@ SchmidtTypeCollectorBlockType >> typeString [
 	
 	argumentClassesString := argumentClasses 
 		ifEmpty: [ '' ]
-		ifNotEmpty: [ '#(', ((argumentClasses collect: [:each | self arrayStringFrom: each]) joinUsing: ' '), ')' ].	
+		ifNotEmpty: [ '#(', ((argumentClasses collect: [:each | self directOrArrayStringFrom: each]) joinUsing: ' '), ')' ].	
 
 	returnClassesString := returnClasses size = 1
 		ifTrue: [ returnClasses anyOne name ]

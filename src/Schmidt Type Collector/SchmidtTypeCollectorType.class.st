@@ -33,9 +33,24 @@ SchmidtTypeCollectorType >> arrayStringFrom: classes [
 
 	^ String streamContents: [ :s |
 		s << '#('.
-		sorted do: [ :cls | s << cls name << ' ' ].
+		sorted do: [ :cls | 
+			| name |
+			name := cls name.
+			name := (name includes: Character space) ifTrue: [ name storeString] ifFalse: [name].
+			s << name << ' ' ].
 		s << ')'.
 		 ]
+]
+
+{ #category : 'serialization' }
+SchmidtTypeCollectorType >> directOrArrayStringFrom: classes [
+
+	classes size = 1 ifTrue: [ 
+		| name |
+		name := classes anyOne name.
+		^ (name includes: Character space) ifTrue: [ name storeString] ifFalse: [name ]].
+	
+	^ self arrayStringFrom: classes 
 ]
 
 { #category : 'comparing' }
