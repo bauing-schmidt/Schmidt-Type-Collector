@@ -262,7 +262,9 @@ SchmidtTypeCollectorForMethod >> installTempLinks [
 { #category : 'blocks' }
 SchmidtTypeCollectorForMethod >> isWellKnownBlock: aBlockNode [
 
-	^ aBlockNode parent isMessage and: [ self wellKnownBlockMessages includes: aBlockNode parent selector ]
+	^ aBlockNode parent isMessage and: [ 
+		(SchmidtTypeCollector wellKnownReturningBlockMessages includes: aBlockNode parent selector) 
+		or: [SchmidtTypeCollector wellKnownNotReturningBlockMessages includes: aBlockNode parent selector ]]
 ]
 
 { #category : 'metalink methods' }
@@ -442,12 +444,6 @@ SchmidtTypeCollectorForMethod >> valueInContext: aContext node: aNode [
 		argName _assigned.
 		(collectedArgClasses at: argName ifAbsentPut: [ Set new ])
 			add: (value asSchmidtTypeCollectorTypeIn: self) ] 
-]
-
-{ #category : 'blocks' }
-SchmidtTypeCollectorForMethod >> wellKnownBlockMessages [
-
-	^ #(select: collect: do: reject:)
 ]
 
 { #category : 'metalink methods' }

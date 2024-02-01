@@ -14,6 +14,18 @@ Class {
 	#package : 'Schmidt Type Collector'
 }
 
+{ #category : 'as yet unclassified' }
+SchmidtTypeCollector class >> wellKnownNotReturningBlockMessages [
+
+	^ #(do:)
+]
+
+{ #category : 'as yet unclassified' }
+SchmidtTypeCollector class >> wellKnownReturningBlockMessages [
+
+	^ #(select: collect: reject:)
+]
+
 { #category : 'API' }
 SchmidtTypeCollector >> finish [ 
 
